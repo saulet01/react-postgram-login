@@ -35,6 +35,16 @@ function useProvideFirebase() {
         await firebase.auth().sendPasswordResetEmail(email);
     };
 
+    const googleAuth = async () => {
+        let base_provider = new firebase.auth.GoogleAuthProvider();
+        await firebase.auth().signInWithPopup(base_provider);
+    };
+
+    const facebookAuth = async () => {
+        let base_provider = new firebase.auth.FacebookAuthProvider();
+        await firebase.auth().signInWithPopup(base_provider);
+    };
+
     const register = async (email, password) => {
         await firebase.auth().createUserWithEmailAndPassword(email, password);
     };
@@ -53,7 +63,9 @@ function useProvideFirebase() {
         login,
         signout,
         changePassword,
-        resetPassword
+        resetPassword,
+        googleAuth,
+        facebookAuth
     };
 }
 

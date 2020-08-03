@@ -4,6 +4,8 @@ import { Form, Input, Button, Layout, message, PageHeader } from "antd";
 import { Link } from "@reach/router";
 import { useNavigate } from "@reach/router";
 import { useFirebase } from "../firebase/useFirebase";
+import { FacebookOutlined } from "@ant-design/icons";
+import { GoogleOutlined } from "@ant-design/icons";
 
 const MainLayout = styled(Layout)`
     width: 100vw;
@@ -15,8 +17,28 @@ const MainLayout = styled(Layout)`
 const TextLayout = styled.div``;
 
 function Register() {
-    const { register } = useFirebase();
+    const { register, googleAuth, facebookAuth } = useFirebase();
     const navigate = useNavigate();
+
+    const handleGoogle = async () => {
+        try {
+            await googleAuth();
+            message.success("Successfully Sign Up with Google Account");
+            navigate("/");
+        } catch (error) {
+            message.error(error.message);
+        }
+    };
+
+    const handleFacebook = async () => {
+        try {
+            await facebookAuth();
+            message.success("Successfully Sign Up with Facebook Account");
+            navigate("/");
+        } catch (error) {
+            message.error(error.message);
+        }
+    };
 
     const onFormFinish = async values => {
         console.log("values are", values);
@@ -67,6 +89,16 @@ function Register() {
                     </Button>
                 </Form.Item>
             </Form>
+            <Button type="primary" danger style={{ width: 300 }} onClick={handleGoogle} icon={<GoogleOutlined />} size="large">
+                Sign Up With Google Account
+            </Button>
+
+            <div style={{ margin: 5 }}></div>
+
+            <Button type="primary" style={{ width: 300 }} onClick={handleFacebook} icon={<FacebookOutlined />} size="large">
+                Sign Up With Facebook Account
+            </Button>
+
             <TextLayout>
                 Already have login? go <Link to="/login">here</Link>
             </TextLayout>
