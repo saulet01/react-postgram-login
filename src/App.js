@@ -6,17 +6,19 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import "./App.css";
 import "antd/dist/antd.css";
+import ResetPassword from "./auth/ResetPassword";
 
 function App() {
-  return (
-    <ProvideFirebase>
-      <Router>
-        <MainPage path="/" />
-        <Login path="/login" />
-        <Register path="/register" />
-      </Router>
-    </ProvideFirebase>
-  );
+    return (
+        <ProvideFirebase>
+            <Router>
+                <MainPage path="/" />
+                <Login path="/login" />
+                <Register path="/register" />
+                <ResetPassword path="/reset" />
+            </Router>
+        </ProvideFirebase>
+    );
 }
 
 export default App;

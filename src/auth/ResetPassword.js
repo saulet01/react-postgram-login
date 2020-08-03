@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Form, Input, Button, Layout, PageHeader, message } from "antd";
-import { Link } from "@reach/router";
-import { useNavigate } from "@reach/router";
 import { useFirebase } from "../firebase/useFirebase";
+import { Link } from "@reach/router";
 
 const MainLayout = styled(Layout)`
     width: 100vw;
@@ -11,26 +10,23 @@ const MainLayout = styled(Layout)`
     align-items: center;
     justify-content: center;
 `;
-
 const TextLayout = styled.div``;
 
-function Login() {
-    const { login } = useFirebase();
-    const navigate = useNavigate();
+const ResetPassword = () => {
+    const { resetPassword } = useFirebase();
 
     const onFormFinish = async values => {
         try {
-            await login(values.email, values.password);
-            message.success("Login is successful");
-            navigate("/");
+            await resetPassword(values.email);
+            message.success("Reset link has been sent to your email adress!");
+            // navigate("/");
         } catch (error) {
             message.error(error.message);
         }
     };
-
     return (
         <MainLayout>
-            <PageHeader title="Login" />
+            <PageHeader title="Reset Password" />
             <Form onFinish={onFormFinish}>
                 <Form.Item
                     label="Email"
@@ -46,34 +42,17 @@ function Login() {
                     <Input />
                 </Form.Item>
 
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input your password!"
-                        }
-                    ]}
-                >
-                    <Input.Password />
-                </Form.Item>
-
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
-                        Login
+                        Reset
                     </Button>
                 </Form.Item>
             </Form>
-
-            <TextLayout>
-                Don't have login yet? Register <Link to="/register">here</Link>
-            </TextLayout>
-            <TextLayout>
-                Forget Password? Reset <Link to="/reset">here</Link>
-            </TextLayout>
+            <Link to="/login">
+                <Button>Go Back</Button>
+            </Link>
         </MainLayout>
     );
-}
+};
 
-export default Login;
+export default ResetPassword;
